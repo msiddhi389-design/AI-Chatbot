@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudyAI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+     ===================================================== -->
+
+<aside id="sidebar">
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ✦
+        </div>
+
+        <div class="brand-text">
+
+            <h1>StudyAI</h1>
+
+            <p>AI Assistant</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ONLY NEW CHAT BUTTON -->
+
+    <button
+        class="new-chat-btn"
+        type="button"
+        onclick="createNewChat()"
+    >
+
+        <span class="new-chat-plus">+</span>
+
+        <span>New Chat</span>
+
+    </button>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-container">
+
+        <input
+            type="text"
+            id="searchChats"
+            placeholder="Search chats..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <!-- CHAT HISTORY -->
+
+    <div class="history-section">
+
+        <div class="history-title">
+            Recent Chats
+        </div>
+
+        <div id="chatHistory"></div>
+
+    </div>
+
+
+    <!-- SIDEBAR STATUS -->
+
+    <div class="sidebar-bottom">
+
+        <div class="online-status">
+
+            <span class="status-dot"></span>
+
+            <span>AI Online</span>
+
+        </div>
+
+    </div>
+
+    <!-- USER PROFILE -->
+<div class="user-profile-area">
+
+    <details class="user-profile">
+
+        <summary class="user-profile-card">
+
+            <div class="user-avatar-small">
+                SM
+            </div>
+
+            <div class="user-info">
+
+                <div class="user-name">
+                    {{ user_name }}
+                </div>
+
+                <div class="user-plan">
+                    Free
+                </div>
+
+            </div>
+
+            <div class="user-more">
+                ⋮
+            </div>
+
+        </summary>
+
+
+        <div class="user-profile-menu">
+
+            <div class="profile-header">
+
+                <div class="profile-avatar">
+                    SM
+                </div>
+
+                <div>
+                    <strong>
+                        {{ user_name }}
+                    </strong>
+
+                    <span>
+                        Free Plan
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="profile-divider"></div>
+
+
+            <div class="profile-plan">
+
+                <div>
+                    <strong>
+                        Free
+                    </strong>
+
+                    <small>
+                        Current plan
+                    </small>
+                </div>
+
+                <button
+                    type="button"
+                    class="upgrade-button"
+                    onclick="alert('Upgrade feature coming soon.')"
+                >
+                    Upgrade
+                </button>
+
+            </div>
+
+
+            <div class="profile-divider"></div>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-button"
+            >
+                <span>↪</span>
+                <span>Log out</span>
+            </a>
+
+        </div>
+
+    </details>
+
+</div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main id="main">
+
+    <!-- HEADER -->
+
+    <header class="main-header">
+
+        <div class="header-title">
+
+            <h2>AI Assistant</h2>
+
+            <div class="header-online">
+
+                <span class="header-status-dot"></span>
+
+                <span>Online</span>
+
+            </div>
+
+        </div>
+
+        <!-- NO NEW CHAT BUTTON HERE -->
+
+    </header>
+
+
+    <!-- =================================================
+         CHAT
+         ================================================= -->
+
+    <section id="chat">
+
+        <!-- WELCOME -->
+
+        <div
+            class="welcome"
+            id="welcome"
+        >
+
+            <div class="welcome-logo">
+                ✦
+            </div>
+
+            <h2>
+                How can I help you today?
+            </h2>
+
+            <p>
+                Ask questions, solve coding problems,
+                study your subjects, analyze files,
+                or ask me anything.
+            </p>
+
+
+            <!-- SUGGESTIONS -->
+
+            <div class="suggestions">
+
+                <button
+                    type="button"
+                    onclick="setQuestion('Explain Data Structures in simple language')"
+                >
+
+                    <span class="suggestion-icon">
+                        📚
+                    </span>
+
+                    <span class="suggestion-content">
+
+                        <strong>
+                            Data Structures
+                        </strong>
+
+                        <small>
+                            Learn concepts simply
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="setQuestion('What is Artificial Intelligence?')"
+                >
+
+                    <span class="suggestion-icon">
+                        🧠
+                    </span>
+
+                    <span class="suggestion-content">
+
+                        <strong>
+                            Artificial Intelligence
+                        </strong>
+
+                        <small>
+                            Understand AI basics
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="setQuestion('Give me Java practice questions')"
+                >
+
+                    <span class="suggestion-icon">
+                        💻
+                    </span>
+
+                    <span class="suggestion-content">
+
+                        <strong>
+                            Java Practice
+                        </strong>
+
+                        <small>
+                            Practice coding
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="setQuestion('Explain Computer Networks')"
+                >
+
+                    <span class="suggestion-icon">
+                        🌐
+                    </span>
+
+                    <span class="suggestion-content">
+
+                        <strong>
+                            Computer Networks
+                        </strong>
+
+                        <small>
+                            Learn CN concepts
+                        </small>
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         COMPOSER
+         ================================================= -->
+
+    <div class="composer-wrapper">
+
+        <div class="composer">
+
+            <!-- SELECTED FILES -->
+
+            <div id="filePreview"></div>
+
+
+            <!-- TEXT AREA -->
+
+            <div class="composer-input-area">
+
+                <textarea
+                    id="message"
+                    rows="1"
+                    placeholder="Message AI Assistant..."
+                    autocomplete="off"
+                ></textarea>
+
+
+                <!-- SEND -->
+
+                <button
+                    id="sendBtn"
+                    type="button"
+                    onclick="sendMessage()"
+                    aria-label="Send message"
+                    title="Send"
+                >
+                    ➤
+                </button>
+
+            </div>
+
+
+            <!-- TOOLS -->
+
+            <div class="composer-tools">
+
+                <button
+                    type="button"
+                    onclick="openFilePicker('file')"
+                >
+                    <span>📁</span>
+                    <span>Files</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="openFilePicker('image')"
+                >
+                    <span>🖼️</span>
+                    <span>Photos</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="openFilePicker('audio')"
+                >
+                    <span>🎵</span>
+                    <span>Audio</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="openFilePicker('video')"
+                >
+                    <span>🎥</span>
+                    <span>Video</span>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFO -->
+
+        <div class="composer-info">
+
+            <span>
+                AI can make mistakes. Check important information.
+            </span>
+
+            <span>
+                Enter ↵ to send
+            </span>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     HIDDEN FILE INPUT
+     ===================================================== -->
+
+<input
+    type="file"
+    id="fileInput"
+    multiple
+    hidden
+>
+
+
+<!-- =====================================================
+     DELETE MODAL CONTAINER
+     ===================================================== -->
+
+<div id="modalContainer"></div>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+</body>
+
+</html>
